@@ -35,10 +35,11 @@ class QuestionAdmin(admin.ModelAdmin):
 		'prompt',
 		'quiz',
 	]
-	list_display=['id', 'prompt', 'quiz']
+	list_display=['id', 'quiz_index', 'prompt', 'quiz']
 	list_filter=[QuizQuestionFilter, ]
 	search_fields=['quiz', 'title']
 	inlines = [AnswerInline, ]
+	readonly_fields: ['quiz_index', ]
 
 class AnswerQuestionFilter(admin.SimpleListFilter):
 	title = 'quiz'

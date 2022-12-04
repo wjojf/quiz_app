@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+{% load widget_tweaks %}
+<div class="wrapper">
+
+  <div class="container">
+    <form action="" method="post">{% csrf_token %}
+      <!-- Email input -->
+      <div class="form-outline mb-4">
+        <label class="form-label" for="form2Example1">Email address</label>
+        {% render_field form.username class='form-control' %}
+      </div>
+     
+      <!-- Password input -->
+      <div class="form-outline mb-4">
+        <label class="form-label" for="form2Example2">Password</label>
+        {% render_field form.password class='form-control' %}
+      </div>
+    
+      <button name="next" type="submit" class="btn btn-primary btn-block mb-4">Sign in</button>
+    
+    </form>
+    </div>
+</div>
+
+{% endblock %}

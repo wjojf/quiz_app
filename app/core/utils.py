@@ -1,6 +1,5 @@
-from core.models import Quiz, UserAnswer
+from core.models import Quiz, UserAnswer, Question
 from django.contrib.auth import get_user_model
-from dateutil import relativedelta
 from datetime import datetime as dt
 from datetime import timedelta as td 
 User=get_user_model()
@@ -22,3 +21,16 @@ def quiz_is_started(quiz_obj: Quiz, user: User) -> bool:
     last_quiz_answer_time = last_quiz_answer.created_at
     
     return last_quiz_answer_time >= _24_hours_ago
+
+
+def get_last_question(quiz_obj: Quiz, user:User) -> Question:
+    user_quiz_answers = UserAnswer.objects.select_related('user', 'answer__question').filter(
+        user=user,
+        answer__question__quiz=quiz_obj
+    )
+
+    # If there are no previous answers 
+    if not user_quiz_answers:
+        return Question.objects.select_related('quiz').filter(
+            quiz=quiz_obj
+        ).first()

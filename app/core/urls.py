@@ -4,5 +4,9 @@ from core import views
 
 urlpatterns = [
     path('', views.HomeView.as_view(), name='home'),
-    path('quiz/<int:quiz_id>', views.QuizStartView.as_view(), name='quiz-view'),
+    path('login/', views.MyLoginView.as_view(), name='login'),
+    path('signup/', views.MyLoginView.as_view(), name='signup'), # FIXME: 
+    path('logout/', views.logout_user, name='logout'),
+    path('quiz/<int:quiz_id>', views.QuizView.as_view(), name='quiz-view'),
+    
 ]

@@ -10,7 +10,7 @@
         <h1>{{quiz}}</h1>
         <p>This quiz has {{quiz.question_count}} questions</p>
 
-        <button class="btn-submit">
+        <button type="button" class="btn btn-primary">
             {% if quiz_started %}
             <a href="/">Continue</a>
             {% else %}

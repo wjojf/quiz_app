@@ -1,7 +1,28 @@
-from django.views.generic import ListView, DetailView
-from core.models import Quiz, Question, Answer, UserAnswer
+from django.views.generic import (ListView, DetailView,)
+from django.contrib.auth.views import (LoginView,)
+from django.contrib.auth import logout
+from django.shortcuts import redirect
+from django.urls import reverse_lazy
+
+from core.models import (Quiz,)
 from core.utils import quiz_is_started
 
+
+#################
+# AUTHENTICATION #
+#################
+
+class MyLoginView(LoginView):
+    template_name: str = 'login.html'
+
+
+def logout_user(request):
+    logout(request)
+    return redirect('home')
+
+###############
+# Quiz Views #
+###############
 
 class HomeView(ListView):
     model = Quiz
@@ -13,7 +34,7 @@ class HomeView(ListView):
         return super().get(request, *args, **kwargs)
 
 
-class QuizStartView(DetailView):
+class QuizView(DetailView):
     model = Quiz
     pk_url_kwarg = 'quiz_id'
     context_object_name = 'quiz'
@@ -27,3 +48,7 @@ class QuizStartView(DetailView):
         )
 
         return context
+
+##################
+# Question Views #
+##################
