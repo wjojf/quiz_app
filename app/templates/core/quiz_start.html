@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+
+{% block extrastyle %}
+
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1>{{quiz}}</h1>
+        <p>This quiz has {{quiz.question_count}} questions</p>
+
+        <button class="btn-submit">
+            {% if quiz_started %}
+            <a href="/">Continue</a>
+            {% else %}
+            <a href="/">Start</a>
+            {% endif %}
+        </button>
+    </div>
+{% endblock %}

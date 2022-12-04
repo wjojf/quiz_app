@@ -1,46 +1,56 @@
 from django.db import models
 from django.contrib.auth.models import User
-import random
 
 
 class Quiz(models.Model):
-    name = models.CharField(max_length=50)
-    desc = models.CharField(max_length=500)    
-    number_of_questions = models.IntegerField(default=1)
-    time = models.IntegerField(help_text="Duration of the quiz in seconds", default="1")
-    
-    def __str__(self):
-        return self.name
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    title = models.CharField(max_length=150)
+    created_at = models.DateTimeField(null=True, auto_now_add=True)
+    times_taken = models.IntegerField(default=0, editable=False)
 
-    def get_questions(self):
-        return self.question_set.all()
-    
-    
+    @property
+    def question_count(self):
+        return self.questions.count()
+
+
+    def __str__(self):
+        return f'Quiz {self.title}'
+
+
 class Question(models.Model):
-    content = models.CharField(max_length=200)
-    quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE)
+    quiz = models.ForeignKey(
+        Quiz,
+        null=True,
+        related_name='questions',
+        on_delete=models.SET_NULL
+    )
+    prompt = models.CharField(max_length=255, default='')
+
+    class Meta:
+        ordering = ("id", )
     
     def __str__(self):
-        return self.content
-    
-    def get_answers(self):
-        return self.answer_set.all()
-    
-    
+        return f'{self.prompt}'
+
+
 class Answer(models.Model):
-    content = models.CharField(max_length=200)
+    question = models.ForeignKey(
+        Question,
+        related_name='answers',
+        on_delete=models.CASCADE
+    )
+    text = models.CharField(max_length=255, default="")
     correct = models.BooleanField(default=False)
-    question = models.ForeignKey(Question, on_delete=models.CASCADE)
-    
+
+
     def __str__(self):
-        return f"question: {self.question.content}, answer: {self.content}, correct: {self.correct}"
-    
-class Marks_Of_User(models.Model):
-    quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE)
+        return f'{self.text}'
+
+
+class UserAnswer(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    score = models.FloatField()
-    
-    def __str__(self):
-        return f'Marks for {str(self.quiz)}'
+    answer = models.ForeignKey(Answer, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
 
-
+    class Meta:
+        ordering = ('-created_at', 'answer')

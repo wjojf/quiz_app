@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %}Welcome to Quiz App{% endblock %}
+
+{% block 'extrastyle' %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+    <script src="{% static 'js/bootsrap.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+    {% for quiz in quizzes%}
+        <h1><a href="{% url 'quiz-view' quiz.id %}">{{quiz}}</a></h1>
+        <p>Number of questions: {{quiz.question_count}}</p>
+    {% endfor %}
+{% endblock %}
+
+{% block footer %}
+    <p>footer</p>
+{% endblock %}
