@@ -8,5 +8,6 @@ urlpatterns = [
     path('signup/', views.MyLoginView.as_view(), name='signup'), # FIXME: 
     path('logout/', views.logout_user, name='logout'),
     path('quiz/<int:quiz_id>', views.QuizView.as_view(), name='quiz-view'),
+    path('quiz/<int:quiz_id>/question/', views.QuestionView.as_view(), name='question-view'),
     
 ]

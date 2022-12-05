@@ -27,10 +27,26 @@ def get_last_question(quiz_obj: Quiz, user:User) -> Question:
     user_quiz_answers = UserAnswer.objects.select_related('user', 'answer__question').filter(
         user=user,
         answer__question__quiz=quiz_obj
-    )
+    ).order_by('answer__question__quiz_index')
 
     # If there are no previous answers 
     if not user_quiz_answers:
         return Question.objects.select_related('quiz').filter(
             quiz=quiz_obj
-        ).first()
+        ).first() # return the first one, as question are ordered 
+    
+    #return i + 1 where i is quiz_index of last answered 
+    quiz_questions = Question.objects.filter(
+        quiz=quiz_obj
+    )
+    last_quiz_index = user_quiz_answers.last().answer.question.quiz_index # TODO:
+    try:
+        return Question.objects.get(
+            quiz=quiz_obj,
+            quiz_index=last_quiz_index+1,
+        )
+    except Exception:
+        return None # No more questions
+    
+
+

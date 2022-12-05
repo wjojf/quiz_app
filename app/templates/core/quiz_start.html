@@ -11,11 +11,7 @@
         <p>This quiz has {{quiz.question_count}} questions</p>
 
         <button type="button" class="btn btn-primary">
-            {% if quiz_started %}
-            <a href="/">Continue</a>
-            {% else %}
-            <a href="/">Start</a>
-            {% endif %}
+            <a href="{% url 'question-view' quiz.id %}">Take</a>
         </button>
     </div>
 {% endblock %}

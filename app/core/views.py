@@ -4,8 +4,8 @@ from django.contrib.auth import logout
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 
-from core.models import (Quiz,)
-from core.utils import quiz_is_started
+from core.models import (Quiz, Question)
+from core.utils import quiz_is_started, get_last_question
 
 
 #################
@@ -52,3 +52,27 @@ class QuizView(DetailView):
 ##################
 # Question Views #
 ##################
+
+class QuestionView(DetailView):
+    model = Question
+    template_name: str = 'core/question.html'
+    pk_url_kwarg: str = 'quiz_id'
+    context_object_name: str = 'question'
+
+    def get_object(self, *args, **kwargs):
+        try:
+            print(kwargs.get(self.pk_url_kwarg))
+            quiz_obj = Quiz.objects.get(pk=self.kwargs.get(self.pk_url_kwarg))
+            return get_last_question(quiz_obj, self.request.user)
+        except Exception:
+            return None
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context[self.context_object_name] = self.get_object()
+        if not context[self.context_object_name]:
+            context['finished'] = True
+            return context
+        context['question_answers'] = context['question'].answers.all()
+        return context
+        
