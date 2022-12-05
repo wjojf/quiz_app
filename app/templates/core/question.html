@@ -7,20 +7,23 @@
     <div class="container">
         {% if not finished %}
         <div class="question ml-sm-5 pl-sm-5 pt-2">
-            <div class="py-2 h5"><b>{{question.prompt}}</b></div>
+            <div class="py-2 h5"><b>{{question.quiz_index}}) {{question.prompt}}</b></div>
             <div class="ml-md-3 ml-sm-3 pl-md-5 pt-sm-0 pt-3" id="options">
-                <form action="" method="POST">
+                <form action="{% url 'save-answer' %}" method="POST">{% csrf_token %}
                     {% for answer in question_answers %}
-                    <label class="options">{{answer.text}}
-                        <input type="radio" name="radio">
-                        <span class="checkmark"></span>
-                    </label>
-                {% endfor %}
+                        <label class="options">{{answer.text}}
+                            <input type="radio" name="user_answer" value="{{answer.id}}">
+                            <span class="checkmark"></span>
+                        </label>
+                    {% endfor %}
+                    <input type="submit" value="Next">
                 </form>
             </div>
         </div>
         {% else %}
-            <h3>Finished!</h3>
+            <h3>Thanks for taking the quiz!</h3>
+            <a href="{% url 'quiz-results' question_quiz_id %}"></a>
+            <a href="{% url 'home' %}">Home</a>
         {% endif %}
     </div>
 

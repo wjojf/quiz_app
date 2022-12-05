@@ -9,5 +9,7 @@ urlpatterns = [
     path('logout/', views.logout_user, name='logout'),
     path('quiz/<int:quiz_id>', views.QuizView.as_view(), name='quiz-view'),
     path('quiz/<int:quiz_id>/question/', views.QuestionView.as_view(), name='question-view'),
+    path('save-answer/', views.save_answer_view, name='save-answer'),
+    path('quiz/<int:quiz_id>/results', views.QuizResultsView.as_view(), name='quiz-results'),
     
 ]

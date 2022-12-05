@@ -1,0 +1,12 @@
+{% extends 'base.html'%}
+
+{% block content %}
+    <div class="container">
+        {% if not quiz_results %}
+            <h1>You did not pass this test yet!</h1>
+        {% else %}
+            <h1>You have {{quiz_results['correct_answers']}} correct answers out of {{quiz_results['n_questions']}} questions</h1>
+            <p>Percentage: {{}}</p>
+        {% endif %}
+    </div>
+{% endblock %}

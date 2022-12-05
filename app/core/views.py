@@ -1,11 +1,10 @@
-from django.views.generic import (ListView, DetailView,)
-from django.contrib.auth.views import (LoginView,)
+from django.views.generic import ListView, DetailView
+from django.contrib.auth.views import LoginView
 from django.contrib.auth import logout
 from django.shortcuts import redirect
-from django.urls import reverse_lazy
 
-from core.models import (Quiz, Question)
-from core.utils import quiz_is_started, get_last_question
+from core.models import Quiz, Question, Answer, UserAnswer
+from core.utils import get_last_question
 
 
 #################
@@ -40,14 +39,6 @@ class QuizView(DetailView):
     context_object_name = 'quiz'
     template_name = 'core/quiz_start.html'
 
-    def get_context_data(self, **kwargs):
-        context =  super().get_context_data(**kwargs)
-        context['quiz_is_started'] = quiz_is_started(
-            quiz_obj=self.get_object(),
-            user=self.request.user
-        )
-
-        return context
 
 ##################
 # Question Views #
@@ -75,4 +66,28 @@ class QuestionView(DetailView):
             return context
         context['question_answers'] = context['question'].answers.all()
         return context
-        
+
+
+def save_answer_view(request):
+    if request.method != "POST":
+        return redirect('home')
+    
+    if 'user_answer' not in request.POST:
+        return redirect('home')
+    
+    try:
+        answer_obj = Answer.objects.select_related('question__quiz').get(id=int(request.POST['user_answer']))
+        user_ans_obj = UserAnswer.objects.create(
+            user=request.user,
+            answer=answer_obj
+        )
+        user_ans_obj.save()
+
+        return redirect('question-view', quiz_id=answer_obj.question.quiz.id)
+    except Exception as e:
+        print(e)
+        return redirect('home')
+
+
+class QuizResultsView(DetailView):
+    pass 

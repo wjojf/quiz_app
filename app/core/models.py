@@ -69,3 +69,11 @@ class UserAnswer(models.Model):
 
     class Meta:
         ordering = ('-created_at', 'answer')
+    
+    
+    def __str__(self):
+        return f'{self.user} {self.answer}'
+
+
+class UserResult(models.Model):
+    pass 
