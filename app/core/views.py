@@ -1,5 +1,6 @@
 from django.views.generic import ListView, DetailView
 from django.contrib.auth.views import LoginView
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import logout
 from django.shortcuts import redirect
 
@@ -28,12 +29,9 @@ class HomeView(ListView):
     context_object_name = 'quizzes'
     template_name = 'core/index.html'
 
-    def get(self, request, *args, **kwargs):
-        print(self.get_queryset())
-        return super().get(request, *args, **kwargs)
 
-
-class QuizView(DetailView):
+class QuizView(LoginRequiredMixin, DetailView):
+    login_url = 'login'
     model = Quiz
     pk_url_kwarg = 'quiz_id'
     context_object_name = 'quiz'
