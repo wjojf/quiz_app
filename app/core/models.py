@@ -76,4 +76,14 @@ class UserAnswer(models.Model):
 
 
 class UserResult(models.Model):
-    pass 
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE)
+    correct_answers = models.IntegerField()
+    correct_percentage = models.FloatField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ('-created_at', )
+
+    def __str__(self):
+        return f'{self.correct_answers} in {self.quiz} by {self.user}'

@@ -65,3 +65,5 @@ class AnswerAdmin(admin.ModelAdmin):
 @admin.register(models.UserAnswer)
 class UserAnswer(admin.ModelAdmin):
 	readonly_fields = ('user', )
+
+admin.site.register(models.UserResult)

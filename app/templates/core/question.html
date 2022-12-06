@@ -22,7 +22,7 @@
         </div>
         {% else %}
             <h3>Thanks for taking the quiz!</h3>
-            <a href="{% url 'quiz-results' question_quiz_id %}"></a>
+            <a href="{% url 'quiz-results' quiz_id %}">Results</a>
             <a href="{% url 'home' %}">Home</a>
         {% endif %}
     </div>

@@ -1,12 +1,29 @@
 {% extends 'base.html'%}
 
 {% block content %}
+    {% include 'navbar.html' %}
     <div class="container">
-        {% if not quiz_results %}
-            <h1>You did not pass this test yet!</h1>
+        {% if results %}
+        <table>
+            <th>
+                <td>Quiz</td>
+                <td>Correct</td>
+                <td>Total</td>
+                <td>% Correct</td>
+                <td>Time</td>
+            </th>
+            {% for result in results  %}
+            <tr>
+                <td>{{result.quiz}}</td>
+                <td>{{result.correct_answers}}</td>
+                <td>{{result.quiz.question_count}}</td>
+                <td>{{result.percentage}}</td>
+                <td>{{result.created_at|timesince}}</td>
+            </tr>
+            {% endfor %}
+        </table>
         {% else %}
-            <h1>You have {{quiz_results['correct_answers']}} correct answers out of {{quiz_results['n_questions']}} questions</h1>
-            <p>Percentage: {{}}</p>
+        <h3>No results!</h3>
         {% endif %}
     </div>
 {% endblock %}

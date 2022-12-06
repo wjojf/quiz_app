@@ -10,8 +10,7 @@
         <h1>{{quiz}}</h1>
         <p>This quiz has {{quiz.question_count}} questions</p>
 
-        <button type="button" class="btn btn-primary">
-            <a href="{% url 'question-view' quiz.id %}">Take</a>
-        </button>
+
+        <a href="{% url 'question-view' quiz.id %}">Take</a>
     </div>
 {% endblock %}

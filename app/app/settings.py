@@ -134,3 +134,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # LOGIN 
 LOGIN_REDIRECT_URL = reverse_lazy('home')
+
+
+try:
+    from local_settings import *
+except ImportError:
+    pass 
