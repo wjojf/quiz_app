@@ -1,6 +1,7 @@
 from django.views.generic import ListView, DetailView
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from django.shortcuts import redirect
 
@@ -42,7 +43,8 @@ class QuizView(LoginRequiredMixin, DetailView):
 # Question Views #
 ##################
 
-class QuestionView(DetailView):
+class QuestionView(LoginRequiredMixin, DetailView):
+    login_url = 'login'
     model = Question
     template_name: str = 'core/question.html'
     pk_url_kwarg: str = 'quiz_id'
@@ -52,7 +54,6 @@ class QuestionView(DetailView):
         try:
             print(kwargs.get(self.pk_url_kwarg))
             quiz_obj = Quiz.objects.get(pk=self.kwargs.get(self.pk_url_kwarg))
-            return get_last_question(quiz_obj, self.request.user)
         except Exception:
             return None
 
@@ -67,6 +68,7 @@ class QuestionView(DetailView):
         return context
 
 
+@login_required(login_url='login')
 def save_answer_view(request):
     if request.method != "POST":
         return redirect('home')
@@ -81,18 +83,19 @@ def save_answer_view(request):
             answer=answer_obj
         )
         user_ans_obj.save()
-
         return redirect('question-view', quiz_id=answer_obj.question.quiz.id)
-    except Exception as e:
-        print(e)
+    
+    except Exception:
         return redirect('home')
 
 
-class QuizResultsView(ListView):
+class QuizResultsView(LoginRequiredMixin, ListView):
+    login_url = 'login'
     model = UserResult
     pk_url_kwarg: str = 'quiz_id'
     template_name = 'core/quiz_results.html'
     context_object_name = 'results'
+
 
     def get_queryset(self, *args, **kwargs):
         if self.pk_url_kwarg not in self.kwargs:
@@ -103,6 +106,7 @@ class QuizResultsView(ListView):
         except Exception:
             return 
     
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         
@@ -112,6 +116,7 @@ class QuizResultsView(ListView):
         except Exception:
             pass
         return context
+
 
     def get(self, request, *args, **kwargs):
         self.object_list = self.get_queryset()
