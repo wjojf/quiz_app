@@ -9,6 +9,7 @@ def user_quiz_answers(quiz_id, user):
         user=user,
     )
 
+
 def calculate_results(*user_answers):
     if not user_answers:
         return 
@@ -57,8 +58,7 @@ def create_user_result(quiz_obj: Quiz, user:User) -> UserResult:
         for u_a in user_quiz_answers:
             u_a.delete()
         return result_obj
-    except Exception as e:
-        print(e)
+    except Exception:
         return    
 
     

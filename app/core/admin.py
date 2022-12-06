@@ -1,8 +1,9 @@
 from django.contrib import admin
 from django.db.models import Q
 
-
 from . import models
+
+admin.site.register(models.UserResult)
 
 @admin.register(models.Quiz)
 class QuizAdmin(admin.ModelAdmin):
@@ -66,4 +67,3 @@ class AnswerAdmin(admin.ModelAdmin):
 class UserAnswer(admin.ModelAdmin):
 	readonly_fields = ('user', )
 
-admin.site.register(models.UserResult)
