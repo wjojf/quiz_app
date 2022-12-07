@@ -5,10 +5,9 @@ from core.signals import generate_quiz_index, move_quiz_indexes
 
 
 class Quiz(models.Model):
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
-    title = models.CharField(max_length=150)
+    author = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    title = models.CharField(max_length=150, null=True, blank=True)
     created_at = models.DateTimeField(null=True, auto_now_add=True)
-    times_taken = models.IntegerField(default=0, editable=False)
 
     @property
     def question_count(self):

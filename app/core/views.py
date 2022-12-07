@@ -52,7 +52,6 @@ class QuestionView(LoginRequiredMixin, DetailView):
 
     def get_object(self, *args, **kwargs):
         try:
-            print(self.kwargs.get(self.pk_url_kwarg))
             quiz_obj = Quiz.objects.get(pk=self.kwargs.get(self.pk_url_kwarg))
             return get_last_question(quiz_obj, self.request.user)
         except Exception:
