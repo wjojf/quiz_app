@@ -11,4 +11,4 @@ services:
     command: sh -c "python3 manage.py makemigrations && python3 manage.py migrate && python3 manage.py create_admin && python3 manage.py create_quiz && python3 manage.py runserver 0.0.0.0:8000"
     environment:
       - DEBUG=1
-      - DJANGO_SECRET_KEY="django-insecure-s=^o$7q^y)48*zgkn(hzxc1)bx9@$w+_4b1=42!m5_&j&fwe^l"
+      - DJANGO_SECRET_KEY=""

@@ -10,7 +10,16 @@ quiz_app is a simple Web Quiz Appliaction written in Django
 
 # Quick start with Docker 
 
-`docker compose up --build`
+1) Open `docker-compose.yml`
+
+2) Fill in your `DJANGO_SECRET KEY` here:
+```
+	environment:
+      - DEBUG=1
+      - DJANGO_SECRET_KEY=""
+```
+
+3) `docker compose up --build` in your terminal
 
 
 # Documentation 
