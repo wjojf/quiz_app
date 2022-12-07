@@ -1,9 +1,9 @@
 def generate_quiz_index(sender, instance, *args, **kwargs):
     try:
         old_instance = sender.objects.get(pk=instance.pk)
-        # if we modify current value 
-        # in case of deleting previous question - do nothing
-        if old_instance.quiz_index > 1:
+        # if we modify current value  or change something else 
+        # in case of deleting previous question - do nothing 
+        if old_instance.quiz_index > 1 or old_instance.quiz_index == instance.quiz_index:
             return 
     except Exception:
         pass 

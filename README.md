@@ -29,4 +29,7 @@ The quiz progress is saved,  when you send a `GET` request to `quiz/{quizId}/que
 
 UPD. You also have a test quiz initialized with docker.
 
+# Local settings 
+
+You are always allowed to create `local_settings.py` at project level (where manage.py is located) and redefine something. 
 
