@@ -1,0 +1,14 @@
+ersion: '3.11'
+
+services:
+  app:
+    build: 
+      context: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./app:/app
+    command: sh -c "python3 manage.py makemigrations && python3 manage.py migrate && python3 manage.py create_admin && python3 manage.py create_quiz && python3 manage.py runserver 0.0.0.0:8000"
+    environment:
+      - DEBUG=1
+      - DJANGO_SECRET_KEY=""
